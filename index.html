@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Belajar HTML dari Nol — Tutorial Lengkap</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --bg2: #181c27;
+      --bg3: #1e2235;
+      --border: #2a2f45;
+      --text: #e8eaf0;
+      --muted: #8891aa;
+      --accent: #4f8ef7;
+      --accent2: #7c6af7;
+      --green: #3ecf8e;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --tag-bg: #1a2033;
+      --code-bg: #0d1018;
+      --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --font-mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── HEADER ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo-icon {
+      width: 28px; height: 28px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: #fff;
+    }
+    nav { display: flex; gap: 4px; }
+    nav a {
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--muted);
+      transition: all .15s;
+    }
+    nav a:hover { background: var(--bg3); color: var(--text); text-decoration: none; }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 0;
+      min-height: calc(100vh - 60px);
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      border-right: 1px solid var(--border);
+      padding: 2rem 0;
+      position: sticky;
+      top: 60px;
+      height: calc(100vh - 60px);
+      overflow-y: auto;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .sidebar-section {
+      padding: 0 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .sidebar-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      margin-bottom: .5rem;
+    }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 13.5px;
+      color: var(--muted);
+      transition: all .12s;
+      cursor: pointer;
+      margin-bottom: 1px;
+    }
+    .sidebar-link:hover { background: var(--bg3); color: var(--text); }
+    .sidebar-link.active { background: rgba(79,142,247,.12); color: var(--accent); font-weight: 500; }
+    .sidebar-link .num {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--muted);
+      min-width: 18px;
+    }
+    .sidebar-link.active .num { color: var(--accent); }
+    .progress-wrap { padding: 0 1.25rem 1rem; }
+    .progress-bar {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+      transition: width .4s;
+      width: 0%;
+    }
+    .progress-text { font-size: 12px; color: var(--muted); }
+
+    /* ── MAIN CONTENT ── */
+    main { padding: 2.5rem 3rem; max-width: 820px; }
+
+    /* ── HERO ── */
+    .hero {
+      margin-bottom: 3rem;
+      padding: 2.5rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(79,142,247,.15), transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(79,142,247,.1);
+      border: 1px solid rgba(79,142,247,.25);
+      color: var(--accent);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: .75rem;
+      background: linear-gradient(135deg, #fff 40%, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .stat { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+    .stat-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+    .stat-dot.amber { background: var(--amber); }
+
+    /* ── LESSON SECTIONS ── */
+    .lesson { margin-bottom: 4rem; }
+    .lesson-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .lesson-num {
+      font-size: 12px;
+      font-family: var(--font-mono);
+      color: var(--accent);
+      background: rgba(79,142,247,.1);
+      border: 1px solid rgba(79,142,247,.2);
+      border-radius: 6px;
+      padding: 4px 10px;
+      white-space: nowrap;
+      margin-top: 4px;
+    }
+    .lesson h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: .25rem;
+    }
+    .lesson-subtitle { font-size: 14px; color: var(--muted); }
+
+    /* Prose */
+    .prose p { margin-bottom: 1rem; font-size: 15px; color: #c8ccd8; }
+    .prose strong { color: var(--text); font-weight: 600; }
+    .prose code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--green);
+    }
+    .prose ul, .prose ol {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+      font-size: 15px;
+      color: #c8ccd8;
+    }
+    .prose li { margin-bottom: .4rem; }
+
+    /* Info box */
+    .info-box {
+      border-left: 3px solid var(--accent);
+      background: rgba(79,142,247,.06);
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1.25rem 0;
+      font-size: 14px;
+      color: #b8c4e0;
+    }
+    .info-box.tip { border-color: var(--green); background: rgba(62,207,142,.06); }
+    .info-box.warn { border-color: var(--amber); background: rgba(245,158,11,.06); }
+    .info-box .label {
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: .4rem;
+    }
+    .info-box.tip .label { color: var(--green); }
+    .info-box .label { color: var(--accent); }
+    .info-box.warn .label { color: var(--amber); }
+
+    /* ── CODE BLOCKS ── */
+    .code-wrap {
+      margin: 1.25rem 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .code-header {
+      background: var(--bg3);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    .code-title { font-size: 12px; color: var(--muted); font-family: var(--font-mono); }
+    .copy-btn {
+      font-size: 11px;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 3px 8px;
+      cursor: pointer;
+      transition: all .15s;
+      font-family: var(--font-sans);
+    }
+    .copy-btn:hover { background: var(--bg2); color: var(--text); }
+    .copy-btn.copied { border-color: var(--green); color: var(--green); }
+    pre {
+      background: var(--code-bg);
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      line-height: 1.8;
+      margin: 0;
+    }
+    pre::-webkit-scrollbar { height: 4px; }
+    pre::-webkit-scrollbar-track { background: transparent; }
+    pre::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    /* Syntax highlight colors */
+    .hl-tag { color: #7dd3fc; }
+    .hl-attr { color: #86efac; }
+    .hl-val { color: #fca5a5; }
+    .hl-comment { color: #4b5563; font-style: italic; }
+    .hl-text { color: #e8eaf0; }
+
+    /* ── LIVE PREVIEW ── */
+    .preview-wrap {
+      margin: 1.25rem 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .preview-header {
+      background: var(--bg3);
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .preview-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .preview-header span { font-size: 12px; color: var(--muted); margin-left: 6px; font-family: var(--font-mono); }
+    .preview-body {
+      background: #fff;
+      color: #111;
+      padding: 1.25rem;
+      font-family: sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 60px;
+    }
+
+    /* ── QUIZ ── */
+    .quiz-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .quiz-q { font-size: 15px; font-weight: 500; margin-bottom: 1rem; }
+    .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+    .quiz-opt {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--muted);
+      transition: all .15s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .quiz-opt:hover { border-color: var(--accent); color: var(--text); background: rgba(79,142,247,.04); }
+    .quiz-opt.correct { border-color: var(--green); background: rgba(62,207,142,.08); color: var(--green); }
+    .quiz-opt.wrong { border-color: var(--red); background: rgba(239,68,68,.08); color: var(--red); }
+    .quiz-opt .opt-key {
+      width: 22px; height: 22px;
+      border: 1px solid currentColor;
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .quiz-feedback {
+      margin-top: 1rem;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: none;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.ok { background: rgba(62,207,142,.08); color: var(--green); border: 1px solid rgba(62,207,142,.2); }
+    .quiz-feedback.err { background: rgba(239,68,68,.08); color: var(--red); border: 1px solid rgba(239,68,68,.2); }
+
+    /* ── CHALLENGE ── */
+    .challenge {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 1.5rem 0;
+    }
+    .challenge-header {
+      background: rgba(124,106,247,.08);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .challenge-header .badge {
+      background: rgba(124,106,247,.15);
+      color: var(--accent2);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .challenge-header span { font-size: 14px; font-weight: 500; }
+    .challenge-body { padding: 1.25rem; }
+    .challenge-body p { font-size: 14px; color: var(--muted); margin-bottom: .75rem; }
+    .challenge-body ul { padding-left: 1.25rem; font-size: 14px; color: var(--muted); }
+    .challenge-body li { margin-bottom: .35rem; }
+    textarea.editor {
+      width: 100%;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      padding: 1rem;
+      resize: vertical;
+      min-height: 140px;
+      margin-top: .75rem;
+      outline: none;
+    }
+    textarea.editor:focus { border-color: var(--accent); }
+    .editor-actions { display: flex; gap: 8px; margin-top: 8px; }
+    .btn {
+      padding: 7px 16px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all .15s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #3d7de8; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { background: var(--bg3); color: var(--text); }
+    .preview-output {
+      margin-top: .75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      display: none;
+    }
+    .preview-output.show { display: block; }
+    .preview-output-header {
+      background: var(--bg3);
+      padding: 6px 12px;
+      font-size: 11px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    iframe.live { width: 100%; border: none; height: 200px; background: #fff; }
+
+    /* ── CHEATSHEET ── */
+    .cheat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      margin: 1rem 0;
+    }
+    .cheat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .cheat-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--green);
+      background: rgba(62,207,142,.08);
+      border: 1px solid rgba(62,207,142,.15);
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+    .cheat-desc { font-size: 13px; color: var(--muted); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 3rem 0;
+    }
+
+    /* ── NEXT LESSON ── */
+    .next-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-top: 2rem;
+      cursor: pointer;
+      transition: border-color .15s;
+    }
+    .next-box:hover { border-color: var(--accent); }
+    .next-box .label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+    .next-box .title { font-size: 15px; font-weight: 500; }
+    .next-arrow { font-size: 20px; color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      main { padding: 1.5rem; }
+      .hero h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">H</div>
+    Belajar HTML
+  </div>
+  <nav>
+    <a href="#bab1">Mulai</a>
+    <a href="#cheatsheet">Cheatsheet</a>
+    <a href="https://developer.mozilla.org/id/docs/Web/HTML" target="_blank">MDN Docs ↗</a>
+  </nav>
+</header>
+
+<!-- ── LAYOUT ── -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="progress-wrap">
+      <div class="progress-text" id="prog-text">0 dari 7 selesai</div>
+      <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Dasar</div>
+      <div class="sidebar-link active" onclick="scrollTo('bab1',this)">
+        <span class="num">01</span> Apa itu HTML?
+      </div>
+      <div class="sidebar-link" onclick="scrollTo('bab2',this)">
+        <span class="num">02</span> Struktur Halaman
+      </div>
+      <div class="sidebar-link" onclick="scrollTo('bab3',this)">
+        <span class="num">03</span> Teks & Heading
+      </div>
+      <div class="sidebar-link" onclick="scrollTo('bab4',this)">
+        <span class="num">04</span> Link & Gambar
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Lanjutan</div>
+      <div class="sidebar-link" onclick="scrollTo('bab5',this)">
+        <span class="num">05</span> List & Tabel
+      </div>
+      <div class="sidebar-link" onclick="scrollTo('bab6',this)">
+        <span class="num">06</span> Form & Input
+      </div>
+      <div class="sidebar-link" onclick="scrollTo('bab7',this)">
+        <span class="num">07</span> Div, Span & Semantik
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Referensi</div>
+      <div class="sidebar-link" onclick="scrollTo('cheatsheet',this)">
+        <span class="num">★</span> Cheatsheet
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- HERO -->
+    <div class="hero" id="top">
+      <div class="hero-badge">✦ Tutorial Lengkap</div>
+      <h1>Belajar HTML<br>dari Nol sampai Paham</h1>
+      <p>Tutorial interaktif untuk pemula — lengkap dengan contoh kode, latihan langsung, dan kuis di setiap bab.</p>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-dot"></span> 7 bab</div>
+        <div class="stat"><span class="stat-dot amber"></span> ~2 jam belajar</div>
+        <div class="stat"><span class="stat-dot"></span> Gratis & open source</div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════ -->
+    <!-- BAB 1 -->
+    <!-- ══════════════════════════════════ -->
+    <section class="lesson" id="bab1">
+      <div class="lesson-header">
+        <div class="lesson-num">Bab 01</div>
+        <div>
+          <h2>Apa itu HTML?</h2>
+          <div class="lesson-subtitle">Kenalan dulu sebelum mulai coding</div>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p><strong>HTML</strong> singkatan dari <em>HyperText Markup Language</em>. Sederhananya, HTML adalah bahasa yang digunakan untuk membuat struktur halaman web. Setiap website yang pernah kamu buka — semuanya dibangun menggunakan HTML.</p>
+        <p>Kalau website diibaratkan rumah, maka <strong>HTML adalah rangka bangunannya</strong> (dinding, pintu, jendela). CSS adalah cat dan dekorasinya, dan JavaScript adalah peralatan elektronik di dalamnya.</p>
+
+        <div class="info-box">
+          <div class="label">📌 Penting</div>
+          HTML bukan bahasa pemrograman — HTML adalah bahasa <em>markup</em>. Artinya kita memberi tanda (tag) pada teks untuk memberitahu browser bagaimana cara menampilkannya.
+        </div>
+
+        <p>HTML bekerja dengan cara membungkus konten dalam <strong>tag</strong>. Tag ditulis dalam kurung sudut seperti <code>&lt;p&gt;</code>. Kebanyakan tag punya pembuka dan penutup:</p>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-title">contoh-tag.html</span>
+          <button class="copy-btn" onclick="copyCode(this)">Salin</button>
+        </div>
+        <pre><span class="hl-comment">&lt;!-- Tag pembuka dan penutup --&gt;</span>
+<span class="hl-tag">&lt;p&gt;</span><span class="hl-text">Ini adalah sebuah paragraf.</span><span class="hl-tag">&lt;/p&gt;</span>
+<span class="hl-tag">&lt;h1&gt;</span><span class="hl-text">Ini adalah judul besar.</span><span class="hl-tag">&lt;/h1&gt;</span>
+
+<span class="hl-comment">&lt;!-- Tag kosong (tidak punya penutup) --&gt;</span>
+<span class="hl-tag">&lt;br&gt;</span>       <span class="hl-comment">&lt;!-- garis baru --&gt;</span>
+<span class="hl-tag">&lt;hr&gt;</span>       <span class="hl-comment">&lt;!-- garis pemisah --&gt;</span>
+<span class="hl-tag">&lt;img</span> <span class="hl-attr">src</span>=<span class="hl-val">"foto.jpg"</span><span class="hl-tag">&gt;</span>  <span class="hl-comment">&lt;!-- gambar --&gt;</span></pre>
+      </div>
+
+      <div class="prose">
+        <p>Tag juga bisa punya <strong>atribut</strong> — informasi tambahan yang ditulis di dalam tag pembuka:</p>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-title">atribut.html</span>
+          <button class="copy-btn" onclick="copyCode(this)">Salin</button>
+        </div>
+        <pre><span class="hl-comment">&lt;!-- Format: &lt;tag atribut="nilai"&gt; --&gt;</span>
+<span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-val">"https://google.com"</span><span class="hl-tag">&gt;</span><span class="hl-text">Buka Google</span><span class="hl-tag">&lt;/a&gt;</span>
+<span class="hl-tag">&lt;img</span> <span class="hl-attr">src</span>=<span class="hl-val">"foto.jpg"</span> <span class="hl-attr">alt</span>=<span class="hl-val">"Foto saya"</span> <span class="hl-attr">width</span>=<span class="hl-val">"300"</span><span class="hl-tag">&gt;</span></pre>
+      </div>
+
+      <!-- Quiz 1 -->
+      <div class="quiz-box" id="quiz1">
+        <div class="quiz-q">🧠 Kuis: Apa yang dimaksud "atribut" dalam HTML?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answer(this,'quiz1',false,'A')"><span class="opt-key">A</span> Nama dari sebuah tag HTML</div>
+          <div class="quiz-opt" onclick="answer(this,'quiz1',true,'B')"><span class="opt-key">B</span> Informasi tambahan yang ditulis di dalam tag pembuka</div>
+          <div class="quiz-opt" onclick="answer(this,'quiz1',false,'C')"><span class="opt-key">C</span> Isi konten yang ditampilkan di browser</div>
+          <div class="quiz-opt" onclick="answer(this,'quiz1',false,'D')"><span class="opt-key">D</span> Penutup dari sebuah tag</div>
+        </div>
+        <div class="quiz-feedback ok" id="quiz1-ok">✅ Betul! Atribut memberikan informasi tambahan pada tag, seperti <code>href</code> pada link atau <code>src</code> pada gambar.</div>
+        <div class="quiz-feedback err" id="quiz1-err">❌ Kurang tepat. Atribut adalah informasi tambahan yang ditulis di dalam tag pembuka, misalnya <code>href="..."</code> atau <code>src="..."</code>.</div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+
+    <!-- ══════════════════════════════════ -->
+    <!-- BAB 2 -->
+    <!-- ══════════════════════════════════ -->
+    <section class="lesson" id="bab2">
+      <div class="lesson-header">
+        <div class="lesson-num">Bab 02</div>
+        <div>
+          <h2>Struktur Halaman HTML</h2>
+          <div class="lesson-subtitle">Kerangka wajib yang ada di setiap file HTML</div>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p>Setiap file HTML yang valid harus memiliki struktur dasar ini. Simpan file dengan ekstensi <code>.html</code>, lalu buka dengan browser.</p>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-title">index.html</span>
+          <button class="copy-btn" onclick="copyCode(this)">Salin</button>
+        </div>
+        <pre><span class="hl-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="hl-tag">&lt;html</span> <span class="hl-attr">lang</span>=<span class="hl-val">"id"</span><span class="hl-tag">&gt;</span>
+
+  <span class="hl-tag">&lt;head&gt;</span>
+    <span class="hl-tag">&lt;meta</span> <span class="hl-attr">charset</span>=<span class="hl-val">"UTF-8"</span><span class="hl-tag">&gt;</span>
+    <span class="hl-tag">&lt;meta</span> <span class="hl-attr">name</span>=<span class="hl-val">"viewport"</span> <span class="hl-attr">content</span>=<span class="hl-val">"width=device-width, initial-scale=1.0"</span><span class="hl-tag">&gt;</span>
+    <span class="hl-tag">&lt;title&gt;</span><span class="hl-text">Judul Halaman Saya</span><span class="hl-tag">&lt;/title&gt;</span>
+  <span class="hl-tag">&lt;/head&gt;</span>
+
+  <span class="hl-tag">&lt;body&gt;</span>
+    <span class="hl-tag">&lt;h1&gt;</span><span class="hl-text">Halo, Dunia!</span><span class="hl-tag">&lt;/h1&gt;</span>
+    <span class="hl-tag">&lt;p&gt;</span><span class="hl-text">Ini halaman web pertamaku.</span><span class="hl-tag">&lt;/p&gt;</span>
+  <span class="hl-tag">&lt;/body&gt;</span>
+
+<span class="hl-tag">&lt;/html&gt;</span></pre>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-header">
+          <div class="preview-dot" style="background:#ef4444"></div>
+          <div class="preview-dot" style="background:#f59e0b"></div>
+          <div class="preview-dot" style="background:#3ecf8e"></div>
+          <span>Preview browser</span>
+        </div>
+        <div class="preview-body">
+          <h1 style="font-size:22px;font-weight:bold;margin-bottom:6px;">Halo, Dunia!</h1>
+          <p>Ini halaman web pertamaku.</p>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p>Penjelasan setiap bagian:</p>
+        <ul>
+          <li><code>&lt;!DOCTYPE html&gt;</code> — Memberitahu browser bahwa ini file HTML5 (versi terbaru)</li>
+          <li><code>&lt;html lang="id"&gt;</code> — Akar/pembungkus semua konten. <code>lang="id"</code> artinya bahasa Indonesia</li>
+          <li><code>&lt;head&gt;</code> — Berisi informasi halaman yang <em>tidak tampil</em> di browser</li>
+          <li><code>&lt;meta charset="UTF-8"&gt;</code> — Agar huruf seperti é, ñ, dan karakter Indonesia tampil benar</li>
+          <li><code>&lt;meta name="viewport"&gt;</code> — Supaya halaman tampil baik di HP</li>
+          <li><code>&lt;title&gt;</code> — Teks yang muncul di tab browser</li>
+          <li><code>&lt;body&gt;</code> — Semua konten yang <em>terlihat</em> di browser ada di sini</li>
+        </ul>
+
+        <div class="info-box tip">
+          <div class="label">💡 Tips</div>
+          Gunakan VS Code dengan ekstensi <strong>Live Server</strong> — setiap kamu simpan file, browser otomatis reload tanpa refresh manual.
+        </div>
+      </div>
+
+      <!-- Latihan 2 -->
+      <div class="challenge">
+        <div class="challenge-header">
+          <span class="badge">Latihan</span>
+          <span>Buat halaman pertamamu</span>
+        </div>
+        <div class="challenge-body">
+          <p>Ketik kode HTML di bawah ini, lalu klik <strong>Jalankan</strong> untuk melihat hasilnya:</p>
+          <ul>
+            <li>Buat struktur HTML dasar</li>
+            <li>Tambahkan judul di <code>&lt;title&gt;</code></li>
+            <li>Isi <code>&lt;body&gt;</code> dengan nama dan hobimu</li>
+          </ul>
+          <textarea class="editor" id="editor2" spellcheck="false">&lt;!DOCTYPE html&gt;
+&lt;html lang="id"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Halaman Saya&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Nama saya ...&lt;/h1&gt;
+    &lt;p&gt;Hobi saya adalah ...&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</textarea>
+          <div class="editor-actions">
+            <button class="btn btn-primary" onclick="runCode('editor2','output2')">▶ Jalankan</button>
+            <button class="btn btn-ghost" onclick="resetCode('editor2',2)">Reset</button>
+          </div>
+          <div class="preview-output" id="output2">
+            <div class="preview-output-header">Output</div>
+            <iframe class="live" id="frame2"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+
+    <!-- ══════════════════════════════════ -->
+    <!-- BAB 3 -->
+    <!-- ══════════════════════════════════ -->
+    <section class="lesson" id="bab3">
+      <div class="lesson-header">
+        <div class="lesson-num">Bab 03</div>
+        <div>
+          <h2>Teks & Heading</h2>
+          <div class="lesson-subtitle">Cara mengatur judul, paragraf, dan format teks</div>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p>HTML punya 6 level heading, dari <code>&lt;h1&gt;</code> (terbesar) sampai <code>&lt;h6&gt;</code> (terkecil). Gunakan secara berurutan — <code>&lt;h1&gt;</code> hanya boleh ada satu per halaman sebagai judul utama.</p>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-title">teks.html</span>
+          <button class="copy-btn" onclick="copyCode(this)">Salin</button>
+        </div>
+        <pre><span class="hl-comment">&lt;!-- Heading --&gt;</span>
+<span class="hl-tag">&lt;h1&gt;</span><span class="hl-text">Judul Utama (h1)</span><span class="hl-tag">&lt;/h1&gt;</span>
+<span class="hl-tag">&lt;h2&gt;</span><span class="hl-text">Subjudul (h2)</span><span class="hl-tag">&lt;/h2&gt;</span>
+<span class="hl-tag">&lt;h3&gt;</span><span class="hl-text">Sub-subjudul (h3)</span><span class="hl-tag">&lt;/h3&gt;</span>
+
+<span class="hl-comment">&lt;!-- Paragraf --&gt;</span>
+<span class="hl-tag">&lt;p&gt;</span><span class="hl-text">Ini paragraf biasa.</span><span class="hl-tag">&lt;/p&gt;</span>
+
+<span class="hl-comment">&lt;!-- Format teks --&gt;</span>
+<span class="hl-tag">&lt;p&gt;</span><span class="hl-text">Teks </span><span class="hl-tag">&lt;strong&gt;</span><span class="hl-text">tebal</span><span class="hl-tag">&lt;/strong&gt;</span><span class="hl-text">, </span><span class="hl-tag">&lt;em&gt;</span><span class="hl-text">miring</span><span class="hl-tag">&lt;/em&gt;</span><span class="hl-text">, dan </span><span class="hl-tag">&lt;u&gt;</span><span class="hl-text">bergaris bawah</span><span class="hl-tag">&lt;/u&gt;</span><span class="hl-text">.</span><span class="hl-tag">&lt;/p&gt;</span>
+
+<span class="hl-comment">&lt;!-- Garis baru & pemisah --&gt;</span>
+<span class="hl-tag">&lt;p&gt;</span><span class="hl-text">Baris pertama.</span><span class="hl-tag">&lt;br&gt;</span><span class="hl-text">Baris kedua (masih paragraf sama).</span><span class="hl-tag">&lt;/p&gt;</span>
+<span class="hl-tag">&lt;hr&gt;</span>
+<span class="hl-tag">&lt;p&gt;</span><span class="hl-text">Setelah garis pemisah.</span><span class="hl-tag">&lt;/p&gt;</span>
+
+<span class="hl-comment">&lt;!-- Kutipan --&gt;</span>
+<span class="hl-tag">&lt;blockquote&gt;</span>
+  <span class="hl-text">"Ilmu tanpa amal bagaikan pohon tanpa buah."</span>
+<span class="hl-tag">&lt;/blockquote&gt;</span></pre>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-header">
+          <div class="preview-dot" style="background:#ef4444"></div>
+          <div class="preview-dot" style="background:#f59e0b"></div>
+          <div class="preview-dot" style="background:#3ecf8e"></div>
+          <span>Preview</span>
+        </div>
+        <div class="preview-body">
+          <h1 style="font-size:20px;font-weight:bold;">Judul Utama (h1)</h1>
+          <h2 style="font-size:16px;font-weight:bold;">Subjudul (h2)</h2>
+          <h3 style="font-size:14px;font-weight:bold;">Sub-subjudul (h3)</h3>
+          <p>Ini paragraf biasa.</p>
+          <p>Teks <strong>tebal</strong>, <em>miring</em>, dan <u>bergaris bawah</u>.</p>
+          <p>Baris pertama.<br>Baris kedua (masih paragraf sama).</p>
+          <hr style="margin:8px 0;">
+          <p>Setelah garis pemisah.</p>
+          <blockquote style="border-left:3px solid #ccc;padding-left:12px;margin:8px 0;color:#555;font-style:italic;">"Ilmu tanpa amal bagaikan pohon tanpa buah."</blockquote>
+        </div>
+      </div>
+
+      <div class="prose">
+        <div class="info-box warn">
+          <div class="label">⚠️ Perhatian</div>
+          Jangan pakai <code>&lt;h1&gt;</code> sampai <code>&lt;h6&gt;</code> hanya karena ukurannya. Gunakan sesuai hierarki konten. Ukuran bisa diatur dengan CSS nanti.
+        </div>
+      </div>
+
+      <!-- Quiz 3 -->
+      <div class="quiz-box" id="quiz3">
+        <div class="quiz-q">🧠 Kuis: Tag apa yang digunakan untuk membuat teks <strong>tebal</strong> yang punya makna penting?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answer(this,'quiz3',false,'A')"><span class="opt-key">A</span> <code>&lt;b&gt;</code> — bold biasa</div>
+          <div class="quiz-opt" onclick="answer(this,'quiz3',true,'B')"><span class="opt-key">B</span> <code>&lt;strong&gt;</code> — tebal + penanda penting</div>
+          <div class="quiz-opt" onclick="answer(this,'quiz3',false,'C')"><span class="opt-key">C</span> <code>&lt;em&gt;</code> — miring</div>
+          <div class="quiz-opt" onclick="answer(this,'quiz3',false,'D')"><span class="opt-key">D</span> <code>&lt;u&gt;</code> — bergaris bawah</div>
+        </div>
+        <div class="quiz-feedback ok" id="quiz3-ok">✅ Tepat! <code>&lt;strong&gt;</code> lebih disarankan daripada <code>&lt;b&gt;</code> karena juga memberi makna semantik "penting" — bukan hanya tampilan tebal.</div>
+        <div class="quiz-feedback err" id="quiz3-err">❌ Kurang tepat. <code>&lt;strong&gt;</code> adalah pilihan yang lebih baik karena memberi makna semantik "penting", bukan hanya sekadar tebal secara visual.</div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+
+    <!-- ══════════════════════════════════ -->
+    <!-- BAB 4 -->
+    <!-- ══════════════════════════════════ -->
+    <section class="lesson" id="bab4">
+      <div class="lesson-header">
+        <div class="lesson-num">Bab 04</div>
+        <div>
+          <h2>Link & Gambar</h2>
+          <div class="lesson-subtitle">Menghubungkan halaman dan menampilkan gambar</div>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p>Link (tautan) dibuat dengan tag <code>&lt;a&gt;</code>. Atribut <code>href</code> menentukan tujuan link:</p>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-title">link.html</span>
+          <button class="copy-btn" onclick="copyCode(this)">Salin</button>
+        </div>
+        <pre><span class="hl-comment">&lt;!-- Link ke website lain --&gt;</span>
+<span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-val">"https://google.com"</span><span class="hl-tag">&gt;</span><span class="hl-text">Buka Google</span><span class="hl-tag">&lt;/a&gt;</span>
+
+<span class="hl-comment">&lt;!-- Buka di tab baru --&gt;</span>
+<span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-val">"https://google.com"</span> <span class="hl-attr">target</span>=<span class="hl-val">"_blank"</span><span class="hl-tag">&gt;</span><span class="hl-text">Buka di tab baru</span><span class="hl-tag">&lt;/a&gt;</span>
+
+<span class="hl-comment">&lt;!-- Link ke halaman lain di folder yang sama --&gt;</span>
+<span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-val">"tentang.html"</span><span class="hl-tag">&gt;</span><span class="hl-text">Halaman Tentang</span><span class="hl-tag">&lt;/a&gt;</span>
+
+<span class="hl-comment">&lt;!-- Link ke bagian di halaman yang sama --&gt;</span>
+<span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-val">"#kontak"</span><span class="hl-tag">&gt;</span><span class="hl-text">Ke bagian kontak</span><span class="hl-tag">&lt;/a&gt;</span>
+<span class="hl-tag">&lt;section</span> <span class="hl-attr">id</span>=<span class="hl-val">"kontak"</span><span class="hl-tag">&gt;</span><span class="hl-text">...</span><span class="hl-tag">&lt;/section&gt;</span></pre>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-title">gambar.html</span>
+          <button class="copy-btn" onclick="copyCode(this)">Salin</button>
+        </div>
+        <pre><span class="hl-comment">&lt;!-- Gambar dari file lokal --&gt;</span>
+<span class="hl-tag">&lt;img</span> <span class="hl-attr">src</span>=<span class="hl-val">"foto.jpg"</span> <span class="hl-attr">alt</span>=<span class="hl-val">"Foto pemandangan gunung"</span><span class="hl-tag">&gt;</span>
+
+<span class="hl-comment">&lt;!-- Gambar dengan ukuran --&gt;</span>
+<span class="hl-tag">&lt;img</span> <span class="hl-attr">src</span>=<span class="hl-val">"logo.png"</span> <span class="hl-attr">alt</span>=<span class="hl-val">"Logo perusahaan"</span> <span class="hl-attr">width</span>=<span class="hl-val">"200"</span><span class="hl-tag">&gt;</span>
+
+<span class="hl-comment">&lt;!-- Gambar dari internet --&gt;</span>
+<span class="hl-tag">&lt;img</span> <span class="hl-attr">src</span>=<span class="hl-val">"https://picsum.photos/400/200"</span> <span class="hl-attr">alt</span>=<span class="hl-val">"Gambar random"</span><span class="hl-tag">&gt;</span>
+
+<span class="hl-comment">&lt;!-- Gambar yang bisa diklik --&gt;</span>
+<span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-val">"https://google.com"</span><span class="hl-tag">&gt;</span>
+  <span class="hl-tag">&lt;img</span> <span class="hl-attr">src</span>=<span class="hl-val">"banner.jpg"</span> <span class="hl-attr">alt</span>=<span class="hl-val">"Klik untuk ke Google"</span><span class="hl-tag">&gt;</span>
+<span class="hl-tag">&lt;/a&gt;</span></pre>
+      </div>
+
+      <div class="prose">
+        <div class="info-box tip">
+          <div class="label">💡 Selalu isi atribut alt!</div>
+          Atribut <code>alt</code> wajib ada di setiap gambar. Kegunaannya: (1) muncul jika gambar gagal dimuat, (2) dibaca oleh screen reader untuk pengguna tuna netra, (3) membantu SEO.
+        </div>
+      </div>
+
+      <!-- Challenge 4 -->
+      <div class="challenge">
+        <div class="challenge-header">
+          <span class="badge">Latihan</span>
+          <span>Buat kartu profil dengan link dan gambar</span>
+        </div>
+        <div class="challenge-body">
+          <p>Buat halaman sederhana berisi:</p>
+          <ul>
+            <li>Gambar (bisa pakai URL dari internet)</li>
+            <li>Nama sebagai heading</li>
+            <li>Link ke akun media sosialmu</li>
+          </ul>
+          <textarea class="editor" id="editor4" spellcheck="false">&lt;h2&gt;Nama Saya&lt;/h2&gt;
+&lt;img src="https://picsum.photos/100/100" alt="Foto profil"&gt;
+&lt;p&gt;Halo! Saya suka belajar HTML.&lt;/p&gt;
+&lt;a href="https://github.com" target="_blank"&gt;GitHub saya&lt;/a&gt;</textarea>
+          <div class="editor-actions">
+            <button class="btn btn-primary" onclick="runCode('editor4','output4')">▶ Jalankan</button>
+            <button class="btn btn-ghost" onclick="resetCode('editor4',4)">Reset</button>
+          </div>
+          <div class="preview-output" id="output4">
+            <div class="preview-output-header">Output</div>
+            <iframe class="live" id="frame4"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+
+    <!-- ══════════════════════════════════ -->
+    <!-- BAB 5 -->
+    <!-- ══════════════════════════════════ -->
+    <section class="lesson" id="bab5">
+      <div class="lesson-header">
+        <div class="lesson-num">Bab 05</div>
+        <div>
+          <h2>List & Tabel</h2>
+          <div class="lesson-subtitle">Menampilkan data dalam bentuk daftar dan tabel</div>
+        </div>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-title">list.html</span>
+          <button class="copy-btn" onclick="copyCode(this)">Salin</button>
+        </div>
+        <pre><span class="hl-comment">&lt;!-- Unordered list (bullet) --&gt;</span>
+<span class="hl-tag">&lt;ul&gt;</span>
+  <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Nasi goreng</span><span class="hl-tag">&lt;/li&gt;</span>
+  <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Mie ayam</span><span class="hl-tag">&lt;/li&gt;</span>
+  <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Bakso</span><span class="hl-tag">&lt;/li&gt;</span>
+<span class="hl-tag">&lt;/ul&gt;</span>
+
+<span class="hl-comment">&lt;!-- Ordered list (angka) --&gt;</span>
+<span class="hl-tag">&lt;ol&gt;</span>
+  <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Panaskan minyak</span><span class="hl-tag">&lt;/li&gt;</span>
+  <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Masukkan bawang</span><span class="hl-tag">&lt;/li&gt;</span>
+  <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Tambah nasi dan aduk</span><span class="hl-tag">&lt;/li&gt;</span>
+<span class="hl-tag">&lt;/ol&gt;</span>
+
+<span class="hl-comment">&lt;!-- List di dalam list (nested) --&gt;</span>
+<span class="hl-tag">&lt;ul&gt;</span>
+  <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Makanan</span>
+    <span class="hl-tag">&lt;ul&gt;</span>
+      <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Nasi goreng</span><span class="hl-tag">&lt;/li&gt;</span>
+      <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Mie ayam</span><span class="hl-tag">&lt;/li&gt;</span>
+    <span class="hl-tag">&lt;/ul&gt;</span>
+  <span class="hl-tag">&lt;/li&gt;</span>
+  <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Minuman</span><span class="hl-tag">&lt;/li&gt;</span>
+<span class="hl-tag">&lt;/ul&gt;</span></pre>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-title">tabel.html</span>
+          <button class="copy-btn" onclick="copyCode(this)">Salin</button>
+        </div>
+        <pre><span class="hl-tag">&lt;table</span> <span class="hl-attr">border</span>=<span class="hl-val">"1"</span><span class="hl-tag">&gt;</span>
+
+  <span class="hl-comment">&lt;!-- thead = baris header --&gt;</span>
+  <span class="hl-tag">&lt;thead&gt;</span>
+    <span class="hl-tag">&lt;tr&gt;</span>
+      <span class="hl-tag">&lt;th&gt;</span><span class="hl-text">Nama</span><span class="hl-tag">&lt;/th&gt;</span>
+      <span class="hl-tag">&lt;th&gt;</span><span class="hl-text">Kota</span><span class="hl-tag">&lt;/th&gt;</span>
+      <span class="hl-tag">&lt;th&gt;</span><span class="hl-text">Nilai</span><span class="hl-tag">&lt;/th&gt;</span>
+    <span class="hl-tag">&lt;/tr&gt;</span>
+  <span class="hl-tag">&lt;/thead&gt;</span>
+
+  <span class="hl-comment">&lt;!-- tbody = baris data --&gt;</span>
+  <span class="hl-tag">&lt;tbody&gt;</span>
+    <span class="hl-tag">&lt;tr&gt;</span>
+      <span class="hl-tag">&lt;td&gt;</span><span class="hl-text">Budi</span><span class="hl-tag">&lt;/td&gt;</span>
+      <span class="hl-tag">&lt;td&gt;</span><span class="hl-text">Jogja</span><span class="hl-tag">&lt;/td&gt;</span>
+      <span class="hl-tag">&lt;td&gt;</span><span class="hl-text">95</span><span class="hl-tag">&lt;/td&gt;</span>
+    <span class="hl-tag">&lt;/tr&gt;</span>
+    <span class="hl-tag">&lt;tr&gt;</span>
+      <span class="hl-tag">&lt;td&gt;</span><span class="hl-text">Siti</span><span class="hl-tag">&lt;/td&gt;</span>
+      <span class="hl-tag">&lt;td&gt;</span><span class="hl-text">Solo</span><span class="hl-tag">&lt;/td&gt;</span>
+      <span class="hl-tag">&lt;td&gt;</span><span class="hl-text">88</span><span class="hl-tag">&lt;/td&gt;</span>
+    <span class="hl-tag">&lt;/tr&gt;</span>
+  <span class="hl-tag">&lt;/tbody&gt;</span>
+
+<span class="hl-tag">&lt;/table&gt;</span></pre>
+      </div>
+
+      <div class="prose">
+        <p>Singkatan yang perlu diingat: <code>tr</code> = table row (baris), <code>th</code> = table header (kolom header, otomatis tebal), <code>td</code> = table data (sel biasa).</p>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+
+    <!-- ══════════════════════════════════ -->
+    <!-- BAB 6 -->
+    <!-- ══════════════════════════════════ -->
+    <section class="lesson" id="bab6">
+      <div class="lesson-header">
+        <div class="lesson-num">Bab 06</div>
+        <div>
+          <h2>Form & Input</h2>
+          <div class="lesson-subtitle">Membuat form untuk interaksi dengan pengguna</div>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p>Form digunakan untuk mengumpulkan data dari pengguna — mulai dari login, registrasi, hingga pencarian.</p>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-title">form.html</span>
+          <button class="copy-btn" onclick="copyCode(this)">Salin</button>
+        </div>
+        <pre><span class="hl-tag">&lt;form</span> <span class="hl-attr">action</span>=<span class="hl-val">"/kirim"</span> <span class="hl-attr">method</span>=<span class="hl-val">"post"</span><span class="hl-tag">&gt;</span>
+
+  <span class="hl-comment">&lt;!-- Input teks --&gt;</span>
+  <span class="hl-tag">&lt;label</span> <span class="hl-attr">for</span>=<span class="hl-val">"nama"</span><span class="hl-tag">&gt;</span><span class="hl-text">Nama lengkap:</span><span class="hl-tag">&lt;/label&gt;</span>
+  <span class="hl-tag">&lt;input</span> <span class="hl-attr">type</span>=<span class="hl-val">"text"</span> <span class="hl-attr">id</span>=<span class="hl-val">"nama"</span> <span class="hl-attr">name</span>=<span class="hl-val">"nama"</span> <span class="hl-attr">placeholder</span>=<span class="hl-val">"Tulis namamu"</span><span class="hl-tag">&gt;</span>
+
+  <span class="hl-comment">&lt;!-- Input email --&gt;</span>
+  <span class="hl-tag">&lt;label</span> <span class="hl-attr">for</span>=<span class="hl-val">"email"</span><span class="hl-tag">&gt;</span><span class="hl-text">Email:</span><span class="hl-tag">&lt;/label&gt;</span>
+  <span class="hl-tag">&lt;input</span> <span class="hl-attr">type</span>=<span class="hl-val">"email"</span> <span class="hl-attr">id</span>=<span class="hl-val">"email"</span> <span class="hl-attr">name</span>=<span class="hl-val">"email"</span> <span class="hl-attr">required</span><span class="hl-tag">&gt;</span>
+
+  <span class="hl-comment">&lt;!-- Dropdown --&gt;</span>
+  <span class="hl-tag">&lt;label</span> <span class="hl-attr">for</span>=<span class="hl-val">"kota"</span><span class="hl-tag">&gt;</span><span class="hl-text">Kota:</span><span class="hl-tag">&lt;/label&gt;</span>
+  <span class="hl-tag">&lt;select</span> <span class="hl-attr">id</span>=<span class="hl-val">"kota"</span> <span class="hl-attr">name</span>=<span class="hl-val">"kota"</span><span class="hl-tag">&gt;</span>
+    <span class="hl-tag">&lt;option</span> <span class="hl-attr">value</span>=<span class="hl-val">""</span><span class="hl-tag">&gt;</span><span class="hl-text">Pilih kota...</span><span class="hl-tag">&lt;/option&gt;</span>
+    <span class="hl-tag">&lt;option</span> <span class="hl-attr">value</span>=<span class="hl-val">"jogja"</span><span class="hl-tag">&gt;</span><span class="hl-text">Yogyakarta</span><span class="hl-tag">&lt;/option&gt;</span>
+    <span class="hl-tag">&lt;option</span> <span class="hl-attr">value</span>=<span class="hl-val">"solo"</span><span class="hl-tag">&gt;</span><span class="hl-text">Solo</span><span class="hl-tag">&lt;/option&gt;</span>
+  <span class="hl-tag">&lt;/select&gt;</span>
+
+  <span class="hl-comment">&lt;!-- Radio button --&gt;</span>
+  <span class="hl-tag">&lt;p&gt;</span><span class="hl-text">Jenis kelamin:</span><span class="hl-tag">&lt;/p&gt;</span>
+  <span class="hl-tag">&lt;input</span> <span class="hl-attr">type</span>=<span class="hl-val">"radio"</span> <span class="hl-attr">name</span>=<span class="hl-val">"jk"</span> <span class="hl-attr">value</span>=<span class="hl-val">"L"</span> <span class="hl-attr">id</span>=<span class="hl-val">"laki"</span><span class="hl-tag">&gt;</span>
+  <span class="hl-tag">&lt;label</span> <span class="hl-attr">for</span>=<span class="hl-val">"laki"</span><span class="hl-tag">&gt;</span><span class="hl-text">Laki-laki</span><span class="hl-tag">&lt;/label&gt;</span>
+  <span class="hl-tag">&lt;input</span> <span class="hl-attr">type</span>=<span class="hl-val">"radio"</span> <span class="hl-attr">name</span>=<span class="hl-val">"jk"</span> <span class="hl-attr">value</span>=<span class="hl-val">"P"</span> <span class="hl-attr">id</span>=<span class="hl-val">"perempuan"</span><span class="hl-tag">&gt;</span>
+  <span class="hl-tag">&lt;label</span> <span class="hl-attr">for</span>=<span class="hl-val">"perempuan"</span><span class="hl-tag">&gt;</span><span class="hl-text">Perempuan</span><span class="hl-tag">&lt;/label&gt;</span>
+
+  <span class="hl-comment">&lt;!-- Textarea --&gt;</span>
+  <span class="hl-tag">&lt;label</span> <span class="hl-attr">for</span>=<span class="hl-val">"pesan"</span><span class="hl-tag">&gt;</span><span class="hl-text">Pesan:</span><span class="hl-tag">&lt;/label&gt;</span>
+  <span class="hl-tag">&lt;textarea</span> <span class="hl-attr">id</span>=<span class="hl-val">"pesan"</span> <span class="hl-attr">name</span>=<span class="hl-val">"pesan"</span> <span class="hl-attr">rows</span>=<span class="hl-val">"4"</span><span class="hl-tag">&gt;&lt;/textarea&gt;</span>
+
+  <span class="hl-comment">&lt;!-- Tombol submit --&gt;</span>
+  <span class="hl-tag">&lt;button</span> <span class="hl-attr">type</span>=<span class="hl-val">"submit"</span><span class="hl-tag">&gt;</span><span class="hl-text">Kirim</span><span class="hl-tag">&lt;/button&gt;</span>
+
+<span class="hl-tag">&lt;/form&gt;</span></pre>
+      </div>
+
+      <div class="prose">
+        <div class="info-box tip">
+          <div class="label">💡 Tips label</div>
+          Selalu hubungkan <code>&lt;label&gt;</code> dengan <code>&lt;input&gt;</code> menggunakan atribut <code>for</code> dan <code>id</code> yang sama. Ini membuat klik pada label otomatis fokus ke input-nya — dan penting untuk aksesibilitas.
+        </div>
+      </div>
+
+      <!-- Challenge 6 -->
+      <div class="challenge">
+        <div class="challenge-header">
+          <span class="badge">Latihan</span>
+          <span>Buat form kontak sederhana</span>
+        </div>
+        <div class="challenge-body">
+          <p>Buat form dengan minimal: nama, email, dan pesan. Coba jalankan!</p>
+          <textarea class="editor" id="editor6" spellcheck="false">&lt;h2&gt;Hubungi Saya&lt;/h2&gt;
+&lt;form&gt;
+  &lt;label for="nama"&gt;Nama:&lt;/label&gt;&lt;br&gt;
+  &lt;input type="text" id="nama" placeholder="Namamu"&gt;&lt;br&gt;&lt;br&gt;
+
+  &lt;label for="email"&gt;Email:&lt;/label&gt;&lt;br&gt;
+  &lt;input type="email" id="email" placeholder="email@kamu.com"&gt;&lt;br&gt;&lt;br&gt;
+
+  &lt;label for="pesan"&gt;Pesan:&lt;/label&gt;&lt;br&gt;
+  &lt;textarea id="pesan" rows="3"&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+
+  &lt;button type="submit"&gt;Kirim&lt;/button&gt;
+&lt;/form&gt;</textarea>
+          <div class="editor-actions">
+            <button class="btn btn-primary" onclick="runCode('editor6','output6')">▶ Jalankan</button>
+            <button class="btn btn-ghost" onclick="resetCode('editor6',6)">Reset</button>
+          </div>
+          <div class="preview-output" id="output6">
+            <div class="preview-output-header">Output</div>
+            <iframe class="live" id="frame6"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+
+    <!-- ══════════════════════════════════ -->
+    <!-- BAB 7 -->
+    <!-- ══════════════════════════════════ -->
+    <section class="lesson" id="bab7">
+      <div class="lesson-header">
+        <div class="lesson-num">Bab 07</div>
+        <div>
+          <h2>Div, Span & Elemen Semantik</h2>
+          <div class="lesson-subtitle">Mengelompokkan konten dengan benar</div>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p><code>&lt;div&gt;</code> dan <code>&lt;span&gt;</code> adalah wadah generik. <code>&lt;div&gt;</code> bersifat <em>block</em> (mengambil seluruh lebar), sedangkan <code>&lt;span&gt;</code> bersifat <em>inline</em> (mengikuti aliran teks).</p>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-title">div-span.html</span>
+          <button class="copy-btn" onclick="copyCode(this)">Salin</button>
+        </div>
+        <pre><span class="hl-comment">&lt;!-- div: blok container --&gt;</span>
+<span class="hl-tag">&lt;div</span> <span class="hl-attr">style</span>=<span class="hl-val">"background: #f0f0f0; padding: 16px;"</span><span class="hl-tag">&gt;</span>
+  <span class="hl-tag">&lt;h2&gt;</span><span class="hl-text">Kartu Profil</span><span class="hl-tag">&lt;/h2&gt;</span>
+  <span class="hl-tag">&lt;p&gt;</span><span class="hl-text">Ini konten di dalam div.</span><span class="hl-tag">&lt;/p&gt;</span>
+<span class="hl-tag">&lt;/div&gt;</span>
+
+<span class="hl-comment">&lt;!-- span: inline styling --&gt;</span>
+<span class="hl-tag">&lt;p&gt;</span>
+  <span class="hl-text">Harga: </span><span class="hl-tag">&lt;span</span> <span class="hl-attr">style</span>=<span class="hl-val">"color: red; font-weight: bold;"</span><span class="hl-tag">&gt;</span><span class="hl-text">DISKON 50%</span><span class="hl-tag">&lt;/span&gt;</span><span class="hl-text"> hari ini!</span>
+<span class="hl-tag">&lt;/p&gt;</span></pre>
+      </div>
+
+      <div class="prose">
+        <p>HTML5 memperkenalkan <strong>elemen semantik</strong> — tag yang namanya menggambarkan isinya. Ini lebih baik daripada menulis semua dalam <code>&lt;div&gt;</code>:</p>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-title">semantik.html</span>
+          <button class="copy-btn" onclick="copyCode(this)">Salin</button>
+        </div>
+        <pre><span class="hl-tag">&lt;header&gt;</span>
+  <span class="hl-tag">&lt;nav&gt;</span>
+    <span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-val">"/"</span><span class="hl-tag">&gt;</span><span class="hl-text">Beranda</span><span class="hl-tag">&lt;/a&gt;</span>
+    <span class="hl-tag">&lt;a</span> <span class="hl-attr">href</span>=<span class="hl-val">"/tentang"</span><span class="hl-tag">&gt;</span><span class="hl-text">Tentang</span><span class="hl-tag">&lt;/a&gt;</span>
+  <span class="hl-tag">&lt;/nav&gt;</span>
+<span class="hl-tag">&lt;/header&gt;</span>
+
+<span class="hl-tag">&lt;main&gt;</span>
+  <span class="hl-tag">&lt;article&gt;</span>
+    <span class="hl-tag">&lt;h1&gt;</span><span class="hl-text">Judul Artikel</span><span class="hl-tag">&lt;/h1&gt;</span>
+    <span class="hl-tag">&lt;p&gt;</span><span class="hl-text">Isi artikel...</span><span class="hl-tag">&lt;/p&gt;</span>
+  <span class="hl-tag">&lt;/article&gt;</span>
+
+  <span class="hl-tag">&lt;aside&gt;</span>
+    <span class="hl-tag">&lt;h3&gt;</span><span class="hl-text">Artikel Terkait</span><span class="hl-tag">&lt;/h3&gt;</span>
+  <span class="hl-tag">&lt;/aside&gt;</span>
+<span class="hl-tag">&lt;/main&gt;</span>
+
+<span class="hl-tag">&lt;footer&gt;</span>
+  <span class="hl-tag">&lt;p&gt;</span><span class="hl-text">© 2025 Website Saya</span><span class="hl-tag">&lt;/p&gt;</span>
+<span class="hl-tag">&lt;/footer&gt;</span></pre>
+      </div>
+
+      <div class="prose">
+        <p>Elemen semantik yang sering dipakai:</p>
+        <ul>
+          <li><code>&lt;header&gt;</code> — Bagian atas halaman/section</li>
+          <li><code>&lt;nav&gt;</code> — Menu navigasi</li>
+          <li><code>&lt;main&gt;</code> — Konten utama halaman</li>
+          <li><code>&lt;article&gt;</code> — Konten mandiri (blog post, berita)</li>
+          <li><code>&lt;section&gt;</code> — Bagian/kelompok konten bertema</li>
+          <li><code>&lt;aside&gt;</code> — Konten sampingan (sidebar)</li>
+          <li><code>&lt;footer&gt;</code> — Bagian bawah halaman</li>
+        </ul>
+
+        <div class="info-box tip">
+          <div class="label">💡 Kenapa semantik penting?</div>
+          Elemen semantik membantu mesin pencari memahami struktur halaman (SEO lebih baik), membuat kode lebih mudah dibaca, dan meningkatkan aksesibilitas untuk pengguna dengan kebutuhan khusus.
+        </div>
+      </div>
+
+      <!-- Quiz 7 -->
+      <div class="quiz-box" id="quiz7">
+        <div class="quiz-q">🧠 Kuis: Apa perbedaan utama antara <code>&lt;div&gt;</code> dan <code>&lt;span&gt;</code>?</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="answer(this,'quiz7',false,'A')"><span class="opt-key">A</span> <code>&lt;div&gt;</code> untuk teks, <code>&lt;span&gt;</code> untuk gambar</div>
+          <div class="quiz-opt" onclick="answer(this,'quiz7',true,'B')"><span class="opt-key">B</span> <code>&lt;div&gt;</code> adalah block element, <code>&lt;span&gt;</code> adalah inline element</div>
+          <div class="quiz-opt" onclick="answer(this,'quiz7',false,'C')"><span class="opt-key">C</span> Keduanya sama persis, hanya beda nama</div>
+          <div class="quiz-opt" onclick="answer(this,'quiz7',false,'D')"><span class="opt-key">D</span> <code>&lt;span&gt;</code> lebih baru dari <code>&lt;div&gt;</code></div>
+        </div>
+        <div class="quiz-feedback ok" id="quiz7-ok">✅ Betul! <code>&lt;div&gt;</code> memakan satu baris penuh (block), sedangkan <code>&lt;span&gt;</code> mengikuti aliran teks (inline) sehingga tidak memecah paragraf.</div>
+        <div class="quiz-feedback err" id="quiz7-err">❌ Kurang tepat. Perbedaan utamanya adalah perilaku layout: <code>&lt;div&gt;</code> = block (satu baris sendiri), <code>&lt;span&gt;</code> = inline (menyatu dalam teks).</div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+
+    <!-- ══════════════════════════════════ -->
+    <!-- CHEATSHEET -->
+    <!-- ══════════════════════════════════ -->
+    <section class="lesson" id="cheatsheet">
+      <div class="lesson-header">
+        <div class="lesson-num">★</div>
+        <div>
+          <h2>Cheatsheet HTML</h2>
+          <div class="lesson-subtitle">Referensi cepat tag-tag yang sering dipakai</div>
+        </div>
+      </div>
+
+      <div class="cheat-grid">
+        <div class="cheat-card"><div class="cheat-tag">&lt;h1&gt; – &lt;h6&gt;</div><div class="cheat-desc">Heading, judul 1–6</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;p&gt;</div><div class="cheat-desc">Paragraf teks</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;a href=""&gt;</div><div class="cheat-desc">Link / tautan</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;img src="" alt=""&gt;</div><div class="cheat-desc">Gambar</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;ul&gt; / &lt;ol&gt;</div><div class="cheat-desc">List bullet / angka</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;li&gt;</div><div class="cheat-desc">Item list</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;table&gt;</div><div class="cheat-desc">Tabel</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;tr&gt; / &lt;td&gt;</div><div class="cheat-desc">Baris / sel tabel</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;form&gt;</div><div class="cheat-desc">Form input</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;input type=""&gt;</div><div class="cheat-desc">Input: text, email, dll</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;button&gt;</div><div class="cheat-desc">Tombol</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;strong&gt;</div><div class="cheat-desc">Teks tebal (penting)</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;em&gt;</div><div class="cheat-desc">Teks miring (penekanan)</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;br&gt;</div><div class="cheat-desc">Garis baru</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;hr&gt;</div><div class="cheat-desc">Garis pemisah</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;div&gt;</div><div class="cheat-desc">Block container</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;span&gt;</div><div class="cheat-desc">Inline container</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;header&gt;</div><div class="cheat-desc">Bagian atas halaman</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;nav&gt;</div><div class="cheat-desc">Navigasi</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;main&gt;</div><div class="cheat-desc">Konten utama</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;section&gt;</div><div class="cheat-desc">Bagian konten</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;article&gt;</div><div class="cheat-desc">Artikel mandiri</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;footer&gt;</div><div class="cheat-desc">Bagian bawah halaman</div></div>
+        <div class="cheat-card"><div class="cheat-tag">&lt;!-- ... --&gt;</div><div class="cheat-desc">Komentar (tidak tampil)</div></div>
+      </div>
+
+      <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; text-align: center;">
+        <div style="font-size: 1.5rem; margin-bottom: .5rem;">🎉</div>
+        <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: .5rem;">Selamat! Kamu sudah menyelesaikan semua bab HTML!</div>
+        <div style="font-size: 14px; color: var(--muted); margin-bottom: 1rem;">Langkah selanjutnya: pelajari CSS untuk mengatur tampilan, lalu JavaScript untuk interaktivitas.</div>
+        <a href="https://developer.mozilla.org/id/docs/Web/HTML" target="_blank" style="display:inline-block; background: var(--accent); color: #fff; padding: 8px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none;">Baca Dokumentasi Lengkap MDN ↗</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  Dibuat dengan ❤️ untuk pemula Indonesia &nbsp;·&nbsp;
+  <a href="https://github.com" target="_blank">GitHub</a> &nbsp;·&nbsp;
+  <a href="https://developer.mozilla.org/id/" target="_blank">MDN Web Docs</a>
+</footer>
+
+
+<script>
+  /* ── Sidebar navigation ── */
+  function scrollTo(id, el) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+    el.classList.add('active');
+    markDone(id);
+  }
+
+  /* ── Progress tracking ── */
+  const done = new Set();
+  function markDone(id) {
+    done.add(id);
+    const total = 7;
+    const pct = Math.round((done.size / total) * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-text').textContent = done.size + ' dari ' + total + ' selesai';
+  }
+
+  /* ── Copy code ── */
+  function copyCode(btn) {
+    const pre = btn.closest('.code-wrap').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Tersalin!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Salin'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  /* ── Quiz answers ── */
+  function answer(el, quizId, correct, key) {
+    const box = document.getElementById(quizId);
+    if (box.dataset.answered) return;
+    box.dataset.answered = '1';
+    el.classList.add(correct ? 'correct' : 'wrong');
+    document.getElementById(quizId + (correct ? '-ok' : '-err')).classList.add('show');
+    if (correct) markDone(quizId);
+  }
+
+  /* ── Live editor ── */
+  const defaults = {};
+  document.querySelectorAll('textarea.editor').forEach(t => { defaults[t.id] = t.value; });
+
+  function runCode(editorId, outputId) {
+    const code = document.getElementById(editorId).value;
+    const out = document.getElementById(outputId);
+    const frameId = 'frame' + editorId.replace('editor','');
+    out.classList.add('show');
+    const frame = document.getElementById(frameId);
+    frame.srcdoc = code;
+  }
+
+  function resetCode(editorId, num) {
+    document.getElementById(editorId).value = defaults[editorId];
+    const out = document.getElementById('output' + num);
+    if (out) out.classList.remove('show');
+  }
+
+  /* ── Scroll spy ── */
+  const sections = ['bab1','bab2','bab3','bab4','bab5','bab6','bab7','cheatsheet'];
+  const links = document.querySelectorAll('.sidebar-link');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const idx = sections.indexOf(e.target.id);
+        if (idx >= 0) {
+          links.forEach(l => l.classList.remove('active'));
+          if (links[idx]) links[idx].classList.add('active');
+        }
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+</script>
+
+</body>
+</html>
